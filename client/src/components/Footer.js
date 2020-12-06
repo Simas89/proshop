@@ -1,7 +1,16 @@
 import React from 'react';
+import { Container, Grid, Typography } from '@material-ui/core';
 
 const Footer = () => {
-	return <div>Footer</div>;
+	return (
+		<footer>
+			<Container>
+				<Grid container justify="center" alignItems="center">
+					<Typography variant="body1">Copyright &copy; ProShop</Typography>
+				</Grid>
+			</Container>
+		</footer>
+	);
 };
 
 export default Footer;
