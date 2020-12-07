@@ -61,7 +61,7 @@ const Product = ({ product }) => {
 				</Link>
 				<div>
 					<Ratingas value={product.rating} num={product.numReviews} />
-					<Typography variant="h6">${product.price}</Typography>
+					<Typography variant="h6">£{product.price}</Typography>
 				</div>
 			</CardContent>
 

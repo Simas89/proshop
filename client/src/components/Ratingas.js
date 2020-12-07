@@ -20,8 +20,9 @@ const Ratingas = ({ value, num }) => {
 				onChange={(event, newValue) => {
 					console.log(newValue);
 				}}
-				name="simple-controlled"
+				name="read-only"
 				value={value}
+				readOnly
 			/>
 			<Typography variant="body1" color="textPrimary">
 				({num})
@@ -31,7 +32,7 @@ const Ratingas = ({ value, num }) => {
 };
 
 Rating.propTypes = {
-	value: PropTypes.number.isRequired,
+	// value: PropTypes.number.isRequired,
 	// num: PropTypes.number.isRequired,
 };
 
