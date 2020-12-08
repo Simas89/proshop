@@ -7,6 +7,12 @@ import Ratingas from 'components/Ratingas';
 import Loader from 'components/Loader';
 import Message from 'components/Message';
 
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 import { listProductDetails } from '../actions/productActions';
 
 const ProductScreenWrapper = styled.div`
@@ -21,13 +27,19 @@ const ProductScreenWrapper = styled.div`
 	}
 `;
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ history, match }) => {
+	const [qty, setQty] = React.useState(1);
 	const dispatch = useDispatch();
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, error, product } = productDetails;
+
 	React.useEffect(() => {
 		dispatch(listProductDetails(match.params.id));
 	}, [dispatch, match.params.id]);
+
+	const addToCartHandler = () => {
+		history.push(`/cart/${match.params.id}?qty=${qty}`);
+	};
 
 	return (
 		product && (
@@ -106,8 +118,52 @@ const ProductScreen = ({ match }) => {
 										</Grid>
 									</Grid>
 								</ListItem>
+								{product.countInStock > 0 && (
+									<ListItem>
+										<Grid container>
+											<Grid item xs={6}>
+												<Typography variant="body1">
+													<strong>Qty:</strong>
+												</Typography>
+											</Grid>
+											<Grid item xs={6}>
+												<FormControl
+													variant="outlined"
+													style={{
+														width: '70px',
+														minWidth: '80px',
+														padding: 0,
+													}}
+												>
+													<Select
+														labelId="demo-simple-select-outlined-label"
+														id="demo-simple-select-outlined"
+														value={qty}
+														onChange={(e) =>
+															setQty(e.target.value)
+														}
+													>
+														{[
+															...Array(
+																product.countInStock
+															).keys(),
+														].map((el) => (
+															<MenuItem
+																key={'key' + el + 1}
+																value={el + 1}
+															>
+																{el + 1}
+															</MenuItem>
+														))}
+													</Select>
+												</FormControl>
+											</Grid>
+										</Grid>
+									</ListItem>
+								)}
 								<ListItem>
 									<Button
+										onClick={addToCartHandler}
 										fullWidth
 										variant="contained"
 										color="primary"
