@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Rating from '@material-ui/lab/Rating';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
@@ -29,11 +28,6 @@ const Ratingas = ({ value, num }) => {
 			</Typography>
 		</RatingWrapper>
 	);
-};
-
-Rating.propTypes = {
-	// value: PropTypes.number.isRequired,
-	// num: PropTypes.number.isRequired,
 };
 
 export default Ratingas;
