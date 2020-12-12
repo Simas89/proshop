@@ -59,7 +59,7 @@ const ProfileScreen = ({ location, history }) => {
 		}
 	};
 	return (
-		<Grid container>
+		<Grid container spacing={2}>
 			<Grid item md={3}>
 				<Typography className={classes.marginVer} variant="h5">
 					USER PROFILE
@@ -77,7 +77,7 @@ const ProfileScreen = ({ location, history }) => {
 						variant="outlined"
 						type="name"
 						id="name"
-						label="name"
+						label="Name"
 					/>
 					<TextField
 						className={classes.marginVer}
@@ -120,7 +120,9 @@ const ProfileScreen = ({ location, history }) => {
 				</form>
 			</Grid>
 			<Grid item md={9}>
-				<Typography variant="h5">MY ORDERS</Typography>
+				<Typography className={classes.marginVer} variant="h5">
+					MY ORDERS
+				</Typography>
 			</Grid>
 		</Grid>
 	);

@@ -80,7 +80,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // @accsess Private
 const updateUserProfile = asyncHandler(async (req, res) => {
 	const user = await User.findById(req.user._id);
-	console.log('Im hit');
 
 	if (user) {
 		user.name = req.body.name || user.name;

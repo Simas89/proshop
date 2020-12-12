@@ -51,12 +51,12 @@ const ProductScreen = ({ history, match }) => {
 					<Message variant="error">{error}</Message>
 				) : (
 					<Grid container>
-						<Grid item xs={6}>
+						<Grid item md={6}>
 							<div className="img-div">
 								<img src={product.image} alt={product.name} />
 							</div>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item md={3}>
 							<List>
 								<ListItem>
 									<Typography variant="h5">{product.name}</Typography>
@@ -82,7 +82,7 @@ const ProductScreen = ({ history, match }) => {
 								</ListItem>
 							</List>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item md={3}>
 							<List>
 								<ListItem>
 									<Grid container>
