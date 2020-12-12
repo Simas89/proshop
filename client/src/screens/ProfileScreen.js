@@ -5,13 +5,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import Loader from 'components/Loader';
 import Message from 'components/Message';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { listMyOrders } from '../actions/orderActions';
+import StyledLink from 'components/StyledLink';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles({
-	root: {
-		'&:hover': {
-			backgroundColor: 'transparent',
-		},
-	},
 	marginVer: {
 		margin: '10px 0',
 	},
@@ -36,6 +43,9 @@ const ProfileScreen = ({ location, history }) => {
 	const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
 	const { success } = userUpdateProfile;
 
+	const orderListMy = useSelector((state) => state.orderListMy);
+	const { loading: loadingOrders, error: errorOrders, orders } = orderListMy;
+
 	// console.log(userDetails);
 	React.useEffect(() => {
 		if (!userInfo) {
@@ -43,6 +53,7 @@ const ProfileScreen = ({ location, history }) => {
 		} else {
 			if (!user.name) {
 				dispatch(getUserDetails('profile'));
+				dispatch(listMyOrders());
 			} else {
 				setName(user.name);
 				setEmail(user.email);
@@ -106,7 +117,7 @@ const ProfileScreen = ({ location, history }) => {
 						style={{ width: '100%' }}
 						variant="outlined"
 						type="password"
-						id="password"
+						id="confirmPassword"
 						label="Confirm password"
 					/>
 					<Button
@@ -123,6 +134,56 @@ const ProfileScreen = ({ location, history }) => {
 				<Typography className={classes.marginVer} variant="h5">
 					MY ORDERS
 				</Typography>
+				{loadingOrders ? (
+					<Loader />
+				) : errorOrders ? (
+					<Message variant="error">{errorOrders}</Message>
+				) : (
+					<TableContainer component={Paper}>
+						<Table aria-label="simple table">
+							<TableHead>
+								<TableRow>
+									<TableCell align="left">ID</TableCell>
+									<TableCell align="left">PAID</TableCell>
+									<TableCell align="left">DELIVERED</TableCell>
+									<TableCell align="left">TOTAL</TableCell>
+									<TableCell align="left">DATE</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{orders.map((order) => (
+									<TableRow key={order._id}>
+										<TableCell align="left">
+											<StyledLink to={`/order/${order._id}`}>
+												<strong>{order._id}</strong>
+											</StyledLink>
+										</TableCell>
+										<TableCell align="left">
+											{order.isPaid ? (
+												order.paidAt.substring(0, 10)
+											) : (
+												<ClearIcon style={{ color: 'red' }} />
+											)}
+										</TableCell>
+										<TableCell align="left">
+											{order.isDelivered ? (
+												order.deliveredAt.substring(0, 10)
+											) : (
+												<ClearIcon style={{ color: 'red' }} />
+											)}
+										</TableCell>
+										<TableCell align="left">
+											£{order.totalPrice}
+										</TableCell>
+										<TableCell align="left">
+											{order.createdAt.substring(0, 10)}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				)}
 			</Grid>
 		</Grid>
 	);

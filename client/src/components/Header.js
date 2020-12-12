@@ -52,6 +52,7 @@ const Header = () => {
 	const { userInfo } = userLogin;
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [anchorElAdmin, setAnchorElAdmin] = React.useState(null);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -64,13 +65,20 @@ const Header = () => {
 	const logoutHandler = () => {
 		dispatch(logout());
 	};
+
+	const handleClickAdmin = (event) => {
+		setAnchorElAdmin(event.currentTarget);
+	};
+	const handleCloseAdmin = () => {
+		setAnchorElAdmin(null);
+	};
 	return (
 		<HeaderWrapper className="root">
 			<AppBar position="static">
 				<Container>
 					<Toolbar>
 						<Link to="/" className="title link">
-							<Typography variant="h6">PROSHOP</Typography>
+							<Typography variant="h6">DEMO-SHOP</Typography>
 						</Link>
 						<Link to="/cart" className="link">
 							<Button
@@ -129,6 +137,73 @@ const Header = () => {
 									SIGN IN
 								</Button>
 							</Link>
+						)}
+						{userInfo && userInfo.isAdmin && (
+							<>
+								<Button
+									className="button link"
+									aria-controls="simple-menu"
+									aria-haspopup="true"
+									onClick={handleClickAdmin}
+								>
+									Admin
+									<span
+										style={{ fontSize: '.5rem', marginLeft: '5px' }}
+									>
+										▼
+									</span>
+								</Button>
+								<Menu
+									id="simple-menu"
+									anchorEl={anchorElAdmin}
+									keepMounted
+									open={Boolean(anchorElAdmin)}
+									onClose={handleCloseAdmin}
+								>
+									<StyledLink
+										to="/admin/userlist"
+										className="title link"
+									>
+										<MenuItem
+											onClick={() => {
+												handleCloseAdmin();
+											}}
+										>
+											<Typography className="menu-item">
+												Users
+											</Typography>
+										</MenuItem>
+									</StyledLink>
+									<StyledLink
+										to="/admin/productlist"
+										className="title link"
+									>
+										<MenuItem
+											onClick={() => {
+												handleCloseAdmin();
+											}}
+										>
+											<Typography className="menu-item">
+												Products
+											</Typography>
+										</MenuItem>
+									</StyledLink>
+									<StyledLink
+										to="/admin/orderlist"
+										className="title link"
+									>
+										<MenuItem
+											onClick={() => {
+												handleCloseAdmin();
+											}}
+										>
+											<Typography className="menu-item">
+												Orders
+											</Typography>
+										</MenuItem>
+									</StyledLink>
+								</Menu>
+							</>
 						)}
 					</Toolbar>
 				</Container>

@@ -75,7 +75,7 @@ const PlaceOrderScreen = ({ history }) => {
 							<div>
 								<Typography variant="h6">SHIPPING</Typography>
 
-								<Typography variant="body1">
+								<Typography variant="body2">
 									<strong>Address: </strong>
 									{cart.shippingAddress.address},{' '}
 									{cart.shippingAddress.city},{' '}
@@ -89,7 +89,7 @@ const PlaceOrderScreen = ({ history }) => {
 							<div>
 								<Typography variant="h6">PAYMENT METHOD</Typography>
 
-								<Typography variant="body1">
+								<Typography variant="body2">
 									<strong>Method: </strong>
 									{cart.paymentMethod &&
 										cart.paymentMethod.paymentMethod}
@@ -197,7 +197,7 @@ const PlaceOrderScreen = ({ history }) => {
 											Total
 										</Grid>
 										<Grid item xs={6}>
-											£{cart.totalPrice}
+											£{cart.totalPrice.toFixed(2)}
 										</Grid>
 									</Grid>
 								</ListItem>

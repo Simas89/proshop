@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +6,7 @@ import Loader from 'components/Loader';
 import Message from 'components/Message';
 import { login } from '../actions/userActions';
 import FormContainer from 'components/FormContainer';
+import StyledLink from 'components/StyledLink';
 
 const useStyles = makeStyles({
 	root: {
@@ -83,11 +83,11 @@ const LoginScreen = ({ location, history }) => {
 
 			<Typography variant="body1">
 				New Customer?{' '}
-				<Link
+				<StyledLink
 					to={redirect ? `/register?redirect=${redirect}` : '/register'}
 				>
-					Register
-				</Link>
+					<strong>Register</strong>
+				</StyledLink>
 			</Typography>
 		</FormContainer>
 	);

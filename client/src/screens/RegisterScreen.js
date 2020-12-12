@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,6 +6,7 @@ import Loader from 'components/Loader';
 import Message from 'components/Message';
 import { register } from '../actions/userActions';
 import FormContainer from 'components/FormContainer';
+import StyledLink from 'components/StyledLink';
 
 const useStyles = makeStyles({
 	root: {
@@ -98,7 +98,7 @@ const RegisterScreen = ({ location, history }) => {
 					variant="outlined"
 					required
 					type="password"
-					id="password"
+					id="confirmPassword"
 					label="Confirm password"
 				/>
 				<Button
@@ -113,9 +113,11 @@ const RegisterScreen = ({ location, history }) => {
 
 			<Typography variant="body1">
 				Have an Account?{' '}
-				<Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
-					Login
-				</Link>
+				<StyledLink
+					to={redirect ? `/login?redirect=${redirect}` : '/login'}
+				>
+					<strong>Login</strong>
+				</StyledLink>
 			</Typography>
 		</FormContainer>
 	);

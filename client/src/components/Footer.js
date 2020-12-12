@@ -6,7 +6,9 @@ const Footer = () => {
 		<footer>
 			<Container>
 				<Grid container justify="center" alignItems="center">
-					<Typography variant="body1">Copyright &copy; ProShop</Typography>
+					<Typography variant="body1">
+						Copyright &copy; DemoShop
+					</Typography>
 				</Grid>
 			</Container>
 		</footer>
