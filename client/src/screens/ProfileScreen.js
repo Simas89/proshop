@@ -51,12 +51,18 @@ const ProfileScreen = ({ location, history }) => {
 		if (!userInfo) {
 			history.push('/login');
 		} else {
-			if (!user.name) {
+			try {
+				if (!user.name) {
+					dispatch(getUserDetails('profile'));
+					dispatch(listMyOrders());
+				} else {
+					setName(user.name);
+					setEmail(user.email);
+				}
+			} catch (error) {
+				console.error(error);
 				dispatch(getUserDetails('profile'));
 				dispatch(listMyOrders());
-			} else {
-				setName(user.name);
-				setEmail(user.email);
 			}
 		}
 	}, [history, userInfo, dispatch, user]);
@@ -173,7 +179,7 @@ const ProfileScreen = ({ location, history }) => {
 											)}
 										</TableCell>
 										<TableCell align="left">
-											£{order.totalPrice}
+											£{order.totalPrice.toFixed(2)}
 										</TableCell>
 										<TableCell align="left">
 											{order.createdAt.substring(0, 10)}

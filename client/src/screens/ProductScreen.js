@@ -2,7 +2,14 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Button, Typography, Grid, List, ListItem } from '@material-ui/core';
+import {
+	Button,
+	Typography,
+	Grid,
+	List,
+	ListItem,
+	Paper,
+} from '@material-ui/core';
 import Ratingas from 'components/Ratingas';
 import Loader from 'components/Loader';
 import Message from 'components/Message';
@@ -40,49 +47,49 @@ const ProductScreen = ({ history, match }) => {
 	};
 
 	return (
-		product && (
-			<ProductScreenWrapper>
-				<Link to="/" className="link">
-					<Button variant="text">Go Back</Button>
-				</Link>
-				{loading ? (
-					<Loader />
-				) : error ? (
-					<Message variant="error">{error}</Message>
-				) : (
-					<Grid container>
-						<Grid item md={6}>
-							<div className="img-div">
-								<img src={product.image} alt={product.name} />
-							</div>
-						</Grid>
-						<Grid item md={3}>
-							<List>
-								<ListItem>
-									<Typography variant="h5">{product.name}</Typography>
-								</ListItem>
+		<ProductScreenWrapper>
+			<Link to="/" className="link">
+				<Button variant="text">Go Back</Button>
+			</Link>
+			{loading ? (
+				<Loader />
+			) : error ? (
+				<Message variant="error">{error}</Message>
+			) : (
+				<Grid container>
+					<Grid item md={6}>
+						<div className="img-div">
+							<img src={product.image} alt={product.name} />
+						</div>
+					</Grid>
+					<Grid item md={3}>
+						<List>
+							<ListItem>
+								<Typography variant="h5">{product.name}</Typography>
+							</ListItem>
 
-								<ListItem>
-									<Ratingas
-										value={product.rating}
-										num={product.numReviews}
-									/>
-								</ListItem>
+							<ListItem>
+								<Ratingas
+									value={product.rating}
+									num={product.numReviews}
+								/>
+							</ListItem>
 
-								<ListItem>
-									<Typography variant="h5">
-										Price: £{product.price}
-									</Typography>
-								</ListItem>
+							<ListItem>
+								<Typography variant="h5">
+									Price: £{product.price}
+								</Typography>
+							</ListItem>
 
-								<ListItem>
-									<Typography variant="body1">
-										{product.description}
-									</Typography>
-								</ListItem>
-							</List>
-						</Grid>
-						<Grid item md={3}>
+							<ListItem>
+								<Typography variant="body1">
+									{product.description}
+								</Typography>
+							</ListItem>
+						</List>
+					</Grid>
+					<Grid item md={3}>
+						<Paper>
 							<List>
 								<ListItem>
 									<Grid container>
@@ -108,9 +115,13 @@ const ProductScreen = ({ history, match }) => {
 										<Grid item xs={6}>
 											<Typography variant="body1">
 												<strong>
-													{product.countInStock > 0
-														? ' In Stock'
-														: ' Out Of Stock'}
+													{product.countInStock > 0 ? (
+														' In Stock'
+													) : (
+														<span style={{ color: 'red' }}>
+															Out Of Stock
+														</span>
+													)}
 												</strong>
 											</Typography>
 										</Grid>
@@ -171,11 +182,11 @@ const ProductScreen = ({ history, match }) => {
 									</Button>
 								</ListItem>
 							</List>
-						</Grid>
+						</Paper>
 					</Grid>
-				)}
-			</ProductScreenWrapper>
-		)
+				</Grid>
+			)}
+		</ProductScreenWrapper>
 	);
 };
 

@@ -18,8 +18,26 @@ const CardStyled = styled(Card)`
 
 	display: flex;
 	flex-direction: column;
+
 	.media {
 		height: 200px;
+		background-position: center;
+		background-size: cover;
+		width: 100%;
+	}
+	.card-image {
+		height: 200px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			background-position: center;
+			background-size: cover;
+		}
+		/* background-image: url(${(p) => p.image}); */
 	}
 	a {
 		text-decoration: none;
@@ -43,14 +61,14 @@ const CardStyled = styled(Card)`
 
 const Product = ({ product }) => {
 	return (
-		<CardStyled>
+		<CardStyled image={product.image}>
 			<CardActionArea>
 				<Link to={`/product/${product._id}`}>
-					<CardMedia
-						className="media"
-						image={product.image}
-						title={product.name}
-					/>
+					<CardMedia>
+						<div className="card-image">
+							<img src={product.image} alt={product.name} />
+						</div>
+					</CardMedia>
 				</Link>
 			</CardActionArea>
 			<CardContent className="content">
