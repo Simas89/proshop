@@ -20,9 +20,11 @@ import ProductListScreen from 'screens/ProductListScreen';
 import ProductEditScreen from 'screens/ProductEditScreen';
 import OrderListScreen from 'screens/OrderListScreen';
 
+import Swipable from 'components/Swipable';
+
 const AppWrapper = styled.div`
 	main {
-		padding: ${(p) => p.theme.spacing(2)}px 0;
+		/* padding-top: ${(p) => p.theme.spacing(4)}px 0; */
 		min-height: 80vh;
 	}
 `;
@@ -32,7 +34,9 @@ const App = () => {
 		<Router>
 			<AppWrapper>
 				<Header />
+
 				<main>
+					{/* <Swipable /> */}
 					<Container>
 						<Route path="/login" component={LoginScreen} />
 						<Route path="/order/:id" component={OrderScreen} />
@@ -51,6 +55,12 @@ const App = () => {
 						<Route
 							path="/admin/productlist"
 							component={ProductListScreen}
+							exact
+						/>
+						<Route
+							path="/admin/productlist/:pageNumber"
+							component={ProductListScreen}
+							exact
 						/>
 						<Route path="/admin/orderlist" component={OrderListScreen} />
 						<Route
@@ -58,6 +68,17 @@ const App = () => {
 							component={ProductEditScreen}
 						/>
 
+						<Route path="/search/:keyword" component={HomeScreen} exact />
+						<Route
+							path="/page/:pageNumber"
+							exact
+							component={HomeScreen}
+						/>
+						<Route
+							path="/search/:keyword/page/:pageNumber"
+							exact
+							component={HomeScreen}
+						/>
 						<Route path="/" exact component={HomeScreen} />
 					</Container>
 				</main>

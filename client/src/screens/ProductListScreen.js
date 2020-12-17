@@ -23,11 +23,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import Paginate from 'components/Paginate';
+
 const ProductListScreen = ({ history, match }) => {
+	const pageNumber = match.params.pageNumber || 1;
+
 	const dispatch = useDispatch();
 
 	const productList = useSelector((state) => state.productList);
-	const { loading, error, products } = productList;
+	const { loading, error, products, page, pages } = productList;
 
 	const productDelete = useSelector((state) => state.productDelete);
 	const {
@@ -57,7 +61,7 @@ const ProductListScreen = ({ history, match }) => {
 		if (successCreate) {
 			history.push(`/admin/product/${createdProduct._id}/edit`);
 		} else {
-			dispatch(listProducts());
+			dispatch(listProducts('', pageNumber));
 		}
 	}, [
 		dispatch,
@@ -66,6 +70,7 @@ const ProductListScreen = ({ history, match }) => {
 		successDelete,
 		successCreate,
 		createdProduct,
+		pageNumber,
 	]);
 
 	const deleteHandler = (id) => {
@@ -101,51 +106,58 @@ const ProductListScreen = ({ history, match }) => {
 			) : error ? (
 				<Message variant="error">{error}</Message>
 			) : (
-				<TableContainer component={Paper}>
-					<Table aria-label="simple table">
-						<TableHead>
-							<TableRow>
-								<TableCell>ID</TableCell>
-								<TableCell>NAME</TableCell>
-								<TableCell>PRICE</TableCell>
-								<TableCell>CATEGORY</TableCell>
-								<TableCell>BRAND</TableCell>
-								<TableCell></TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{products &&
-								products.map((product) => (
-									<TableRow key={product._id}>
-										<TableCell component="th" scope="row">
-											{product._id}
-										</TableCell>
-										<TableCell>{product.name}</TableCell>
-										<TableCell>{product.price}</TableCell>
-										<TableCell>{product.category}</TableCell>
-										<TableCell>{product.brand}</TableCell>
-										<TableCell>
-											<ButtonGroup>
-												<Button
-													onClick={() => editHandler(product._id)}
-												>
-													<EditIcon />
-												</Button>
+				<>
+					<TableContainer component={Paper}>
+						<Table aria-label="simple table">
+							<TableHead>
+								<TableRow>
+									<TableCell>ID</TableCell>
+									<TableCell>NAME</TableCell>
+									<TableCell>PRICE</TableCell>
+									<TableCell>CATEGORY</TableCell>
+									<TableCell>BRAND</TableCell>
+									<TableCell></TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								{products &&
+									products.map((product) => (
+										<TableRow key={product._id}>
+											<TableCell component="th" scope="row">
+												{product._id}
+											</TableCell>
+											<TableCell>{product.name}</TableCell>
+											<TableCell>{product.price}</TableCell>
+											<TableCell>{product.category}</TableCell>
+											<TableCell>{product.brand}</TableCell>
+											<TableCell>
+												<ButtonGroup>
+													<Button
+														onClick={() =>
+															editHandler(product._id)
+														}
+													>
+														<EditIcon />
+													</Button>
 
-												<Button
-													onClick={() =>
-														deleteHandler(product._id)
-													}
-												>
-													<DeleteIcon style={{ color: 'red' }} />
-												</Button>
-											</ButtonGroup>
-										</TableCell>
-									</TableRow>
-								))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+													<Button
+														onClick={() =>
+															deleteHandler(product._id)
+														}
+													>
+														<DeleteIcon
+															style={{ color: 'red' }}
+														/>
+													</Button>
+												</ButtonGroup>
+											</TableCell>
+										</TableRow>
+									))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+					<Paginate pages={pages} page={page} isAdmin={true} />
+				</>
 			)}
 		</>
 	);

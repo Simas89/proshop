@@ -52,7 +52,7 @@ const ProfileScreen = ({ location, history }) => {
 			history.push('/login');
 		} else {
 			try {
-				if (!user.name) {
+				if (!user || !user.name || success) {
 					dispatch(getUserDetails('profile'));
 					dispatch(listMyOrders());
 				} else {

@@ -9,6 +9,10 @@ import {
 	List,
 	ListItem,
 	Paper,
+	TextareaAutosize,
+	Box,
+	Divider,
+	useTheme,
 } from '@material-ui/core';
 import Ratingas from 'components/Ratingas';
 import Loader from 'components/Loader';
@@ -18,7 +22,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import { listProductDetails } from '../actions/productActions';
+import {
+	listProductDetails,
+	createProductReview,
+} from '../actions/productActions';
+
+import { PRODUCT_CREATE_REVIEW_RESET } from 'constants/productConstants';
+import StyledLink from 'components/StyledLink';
 
 const ProductScreenWrapper = styled.div`
 	.link {
@@ -30,27 +40,66 @@ const ProductScreenWrapper = styled.div`
 			width: 100%;
 		}
 	}
+	.text-area {
+		background-color: none;
+		resize: none;
+		width: 100%;
+		padding: 14px;
+		font-family: Roboto;
+		font-size: 1rem;
+		border-radius: 5px;
+		border: 1px solid rgb(180, 180, 180);
+		background: none;
+	}
 `;
 
 const ProductScreen = ({ history, match }) => {
 	const [qty, setQty] = React.useState(1);
+	const [rating, setRating] = React.useState(0);
+	const [comment, setComment] = React.useState('');
 	const dispatch = useDispatch();
+
+	const productReviewCreate = useSelector(
+		(state) => state.productReviewCreate
+	);
+	const {
+		error: errorProductReview,
+		success: successProductReview,
+	} = productReviewCreate;
+
+	const userLogin = useSelector((state) => state.userLogin);
+	const { userInfo } = userLogin;
+
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, error, product } = productDetails;
 
+	const theme = useTheme();
+	console.log(theme);
+
 	React.useEffect(() => {
+		if (successProductReview) {
+			alert('Review Submited!');
+			setComment('');
+			setRating(0);
+			dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+		}
 		dispatch(listProductDetails(match.params.id));
-	}, [dispatch, match.params.id]);
+	}, [dispatch, match.params.id, successProductReview]);
 
 	const addToCartHandler = () => {
 		history.push(`/cart/${match.params.id}?qty=${qty}`);
 	};
 
+	const submitHandler = (e) => {
+		e.preventDefault();
+		dispatch(createProductReview(match.params.id, { rating, comment }));
+	};
+
 	return (
 		<ProductScreenWrapper>
-			<Link to="/" className="link">
+			{/* <Link to="/" className="link">
 				<Button variant="text">Go Back</Button>
-			</Link>
+			</Link> */}
 			{loading ? (
 				<Loader />
 			) : error ? (
@@ -175,14 +224,121 @@ const ProductScreen = ({ history, match }) => {
 										onClick={addToCartHandler}
 										fullWidth
 										variant="contained"
-										color="primary"
 										disabled={product.countInStock === 0}
+										style={{
+											backgroundColor: theme.palette.action.main,
+											color: 'white',
+										}}
 									>
 										Add To Cart
 									</Button>
 								</ListItem>
 							</List>
 						</Paper>
+					</Grid>
+					<Grid container>
+						<Grid item md={6}>
+							<Typography variant="h6">REVIEWS</Typography>
+							{product.reviews.length === 0 && (
+								<Message>No reviews</Message>
+							)}
+							<List>
+								{product.reviews.map((review) => (
+									<div key={review._id}>
+										<ListItem>
+											<Box
+												display="flex"
+												flexDirection="column"
+												style={{ marginLeft: '-8px' }}
+											>
+												<Box
+													display="flex"
+													alignItems="flex-end"
+													justifyContent="flex-end"
+												>
+													<Ratingas
+														value={review.rating}
+														num={null}
+													/>
+													<Typography variant="body1">
+														<strong
+															style={{ marginLeft: '15px' }}
+														>
+															{review.name}
+														</strong>
+													</Typography>
+												</Box>
+
+												<Typography variant="body2">
+													{review.createdAt.substring(0, 10)}
+												</Typography>
+
+												<Typography
+													variant="body1"
+													style={{ marginTop: '8px' }}
+												>
+													{review.comment}
+												</Typography>
+											</Box>
+										</ListItem>
+										<Divider />
+									</div>
+								))}
+								<ListItem>
+									<Typography variant="body1">
+										WRITE A CUSTOMER REVIEW
+									</Typography>
+								</ListItem>
+
+								{errorProductReview && (
+									<ListItem>
+										<Message variant="error">
+											{errorProductReview}
+										</Message>
+									</ListItem>
+								)}
+
+								{userInfo ? (
+									<ListItem>
+										<form
+											onSubmit={submitHandler}
+											style={{ width: '100%' }}
+										>
+											<Ratingas
+												value={rating}
+												num={null}
+												edit={true}
+												onReturn={(rating) => setRating(rating)}
+											/>
+
+											<TextareaAutosize
+												style={{ margin: '8px 0 4px 0' }}
+												onChange={(e) => setComment(e.target.value)}
+												className="text-area"
+												aria-label="minimum height"
+												rowsMin={2}
+												placeholder="Comment"
+												value={comment}
+												required
+											/>
+											<Button
+												type="submit"
+												variant="contained"
+												color="secondary"
+											>
+												Submit
+											</Button>
+										</form>
+									</ListItem>
+								) : (
+									<Message>
+										Please{' '}
+										<StyledLink to="/login">sign in</StyledLink> to
+										write a review.
+									</Message>
+								)}
+							</List>
+						</Grid>
 					</Grid>
 				</Grid>
 			)}

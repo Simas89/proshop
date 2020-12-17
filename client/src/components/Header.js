@@ -11,29 +11,21 @@ import {
 	AppBar,
 	Menu,
 	MenuItem,
+	Box,
 } from '@material-ui/core';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PersonIcon from '@material-ui/icons/Person';
-
-const StyledLink = styled(Link)`
-	text-decoration: none;
-	color: ${(p) => p.theme.palette.text.primary};
-
-	&:focus,
-	&:hover,
-	&:visited,
-	&:link,
-	&:active {
-		text-decoration: none;
-	}
-`;
+import SearchBox from 'components/SearchBox';
+import StyledLink from 'components/StyledLink';
 
 const HeaderWrapper = styled.div`
 	.root {
 		flex-grow: 1;
 	}
-	.title {
-		flex-grow: 1;
+	.app-bar {
+		display: flex;
+		height: 80px;
+		justify-content: center;
 	}
 
 	.button {
@@ -43,6 +35,7 @@ const HeaderWrapper = styled.div`
 	.link {
 		color: white;
 		text-decoration: none;
+		margin-right: 16px;
 	}
 `;
 
@@ -74,12 +67,16 @@ const Header = () => {
 	};
 	return (
 		<HeaderWrapper className="root">
-			<AppBar position="static">
+			<AppBar position="static" className="app-bar">
 				<Container>
 					<Toolbar>
-						<Link to="/" className="title link">
+						<StyledLink to="/" className="link">
 							<Typography variant="h6">DEMO-SHOP</Typography>
-						</Link>
+						</StyledLink>
+
+						<SearchBox />
+
+						<Box flexGrow={1} />
 						<Link to="/cart" className="link">
 							<Button
 								className="button link"
@@ -206,6 +203,7 @@ const Header = () => {
 							</>
 						)}
 					</Toolbar>
+					{/* <SearchBox /> */}
 				</Container>
 			</AppBar>
 		</HeaderWrapper>

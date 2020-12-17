@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import colors from 'colors';
+import morgan from 'morgan';
 import connectDB from './config/db';
 import { notFound, errorHandler } from './middleware/errorMiddleware';
 import productRoutes from './routes/productRoutes';
@@ -18,8 +20,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const __dirname = path.resolve();
-console.log(__dirname);
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use(morgan('dev'));
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);

@@ -8,23 +8,24 @@ const RatingWrapper = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	margin-left: -4px;
 `;
 
-const Ratingas = ({ value, num }) => {
+const Ratingas = ({ value, num, edit, onReturn }) => {
 	return (
 		<RatingWrapper>
 			<Rating
 				precision={0.5}
 				max={5}
 				onChange={(event, newValue) => {
-					console.log(newValue);
+					onReturn(newValue);
 				}}
 				name="read-only"
 				value={value}
-				readOnly
+				readOnly={!edit}
 			/>
 			<Typography variant="body1" color="textPrimary">
-				({num})
+				{num !== null && `(${num})`}
 			</Typography>
 		</RatingWrapper>
 	);
