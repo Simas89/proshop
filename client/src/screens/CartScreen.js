@@ -18,6 +18,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+import Meta from 'components/Meta';
+
 const CartScreenWrapper = styled.div`
 	img {
 		width: 100%;
@@ -48,6 +50,7 @@ const CartScreen = ({ match, location, history }) => {
 
 	return (
 		<CartScreenWrapper>
+			<Meta title={'DemoShop | Cart'} />{' '}
 			<Grid container>
 				<Grid item md={8}>
 					<Typography variant="h5">SHOPPING CART</Typography>

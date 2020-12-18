@@ -1,0 +1,24 @@
+{
+	"name": "demoshop",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "npm start --prefix backend",
+		"client": "npm start --prefix client",
+		"clientinstall": "npm install --prefix client",
+		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --prefix server && npm run build --prefix client"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Simas89/proshop.git"
+	},
+	"keywords": [],
+	"author": "Simas Zurauskas",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Simas89/proshop/issues"
+	},
+	"homepage": "https://github.com/Simas89/proshop#readme"
+}

@@ -24,7 +24,7 @@ import Swipable from 'components/Swipable';
 
 const AppWrapper = styled.div`
 	main {
-		/* padding-top: ${(p) => p.theme.spacing(4)}px 0; */
+		padding-top: ${(p) => p.theme.spacing(4)}px;
 		min-height: 80vh;
 	}
 `;
@@ -36,7 +36,8 @@ const App = () => {
 				<Header />
 
 				<main>
-					{/* <Swipable /> */}
+					{/* <Route path="/" component={Swipable} exact /> */}
+
 					<Container>
 						<Route path="/login" component={LoginScreen} />
 						<Route path="/order/:id" component={OrderScreen} />

@@ -6,6 +6,7 @@ import Product from 'components/Product';
 import Loader from 'components/Loader';
 import Message from 'components/Message';
 import Paginate from 'components/Paginate';
+import Meta from 'components/Meta';
 
 const HomeScreen = ({ match }) => {
 	const keyword = match.params.keyword;
@@ -20,6 +21,7 @@ const HomeScreen = ({ match }) => {
 
 	return (
 		<>
+			<Meta />
 			{loading ? (
 				<Loader />
 			) : error ? (
