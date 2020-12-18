@@ -17,6 +17,8 @@ const app = express();
 
 /// ---
 
+console.log('Hello World!');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const __dirname = path.resolve();
