@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import {
 	Button,
 	Typography,
@@ -12,7 +11,7 @@ import {
 	TextareaAutosize,
 	Box,
 	Divider,
-	useTheme,
+	// useTheme,
 } from '@material-ui/core';
 import Ratingas from 'components/Ratingas';
 import Loader from 'components/Loader';
@@ -28,8 +27,15 @@ import {
 	createProductReview,
 } from '../actions/productActions';
 
-import { PRODUCT_CREATE_REVIEW_RESET } from 'constants/productConstants';
+import { addToCart } from '../actions/cartActions';
+
+import {
+	PRODUCT_CREATE_REVIEW_RESET,
+	PRODUCT_DETAILS_RESET,
+} from 'constants/productConstants';
 import StyledLink from 'components/StyledLink';
+
+import { arrHasKeyVal } from 'utils/utils';
 
 const ProductScreenWrapper = styled.div`
 	.link {
@@ -58,6 +64,7 @@ const ProductScreen = ({ history, match }) => {
 	const [qty, setQty] = React.useState(1);
 	const [rating, setRating] = React.useState(0);
 	const [comment, setComment] = React.useState('');
+	const [inCart, setInCart] = React.useState(false);
 	const dispatch = useDispatch();
 
 	const productReviewCreate = useSelector(
@@ -74,8 +81,12 @@ const ProductScreen = ({ history, match }) => {
 	const productDetails = useSelector((state) => state.productDetails);
 	const { loading, error, product } = productDetails;
 
-	const theme = useTheme();
-	console.log(theme);
+	const cart = useSelector((state) => state.cart);
+	const { cartItems } = cart;
+
+	React.useLayoutEffect(() => {
+		dispatch({ type: PRODUCT_DETAILS_RESET });
+	}, []);
 
 	React.useEffect(() => {
 		if (successProductReview) {
@@ -87,8 +98,20 @@ const ProductScreen = ({ history, match }) => {
 		dispatch(listProductDetails(match.params.id));
 	}, [dispatch, match.params.id, successProductReview]);
 
+	React.useEffect(() => {
+		if (arrHasKeyVal(cartItems, 'product', match.params.id)) {
+			const index = cartItems
+				.map((item) => item.product)
+				.indexOf(match.params.id);
+
+			setQty(cartItems[index].qty);
+			setInCart(true);
+		}
+	}, [cartItems]);
+
 	const addToCartHandler = () => {
-		history.push(`/cart/${match.params.id}?qty=${qty}`);
+		// history.push(`/cart/${match.params.id}?qty=${qty}`);
+		dispatch(addToCart(match.params.id, qty));
 	};
 
 	const submitHandler = (e) => {
@@ -197,6 +220,7 @@ const ProductScreen = ({ history, match }) => {
 														}}
 													>
 														<Select
+															variant="standard"
 															labelId="demo-simple-select-outlined-label"
 															id="demo-simple-select-outlined"
 															value={qty}
@@ -222,18 +246,47 @@ const ProductScreen = ({ history, match }) => {
 											</Grid>
 										</ListItem>
 									)}
+									{inCart && (
+										<ListItem>
+											<Grid container>
+												<Grid item xs={6}>
+													<Typography variant="body1">
+														<strong>In Cart:</strong>
+													</Typography>
+												</Grid>
+												<Grid item xs={6}>
+													<Typography variant="body1">
+														<strong>
+															{
+																cartItems[
+																	cartItems
+																		.map(
+																			(item) => item.product
+																		)
+																		.indexOf(match.params.id)
+																].qty
+															}
+														</strong>
+													</Typography>
+												</Grid>
+											</Grid>
+										</ListItem>
+									)}
 									<ListItem>
 										<Button
 											onClick={addToCartHandler}
 											fullWidth
 											variant="contained"
 											disabled={product.countInStock === 0}
-											style={{
-												backgroundColor: theme.palette.action.main,
-												color: 'white',
-											}}
+											color="secondary"
 										>
-											Add To Cart
+											{arrHasKeyVal(
+												cartItems,
+												'product',
+												match.params.id
+											)
+												? 'Update Cart'
+												: 'Add To Cart'}
 										</Button>
 									</ListItem>
 								</List>
@@ -241,7 +294,9 @@ const ProductScreen = ({ history, match }) => {
 						</Grid>
 						<Grid container>
 							<Grid item md={6}>
-								<Typography variant="h6">REVIEWS</Typography>
+								<Typography style={{ marginTop: '8px' }} variant="h6">
+									REVIEWS
+								</Typography>
 								{product.reviews.length === 0 && (
 									<Message>No reviews</Message>
 								)}
@@ -256,8 +311,8 @@ const ProductScreen = ({ history, match }) => {
 												>
 													<Box
 														display="flex"
-														alignItems="flex-end"
-														justifyContent="flex-end"
+														// alignItems="flex-end"
+														// justifyContent="flex-end"
 													>
 														<Ratingas
 															value={review.rating}
@@ -287,60 +342,82 @@ const ProductScreen = ({ history, match }) => {
 											<Divider />
 										</div>
 									))}
-									<ListItem>
-										<Typography variant="body1">
-											WRITE A CUSTOMER REVIEW
-										</Typography>
-									</ListItem>
+									{userInfo &&
+									!arrHasKeyVal(
+										product.reviews,
+										'name',
+										userInfo.name
+									) ? (
+										<>
+											<ListItem>
+												<Typography variant="body2">
+													<strong>WRITE A CUSTOMER REVIEW</strong>
+												</Typography>
+											</ListItem>
 
-									{errorProductReview && (
-										<ListItem>
-											<Message variant="error">
-												{errorProductReview}
-											</Message>
-										</ListItem>
-									)}
+											{errorProductReview && (
+												<ListItem>
+													<Message variant="error">
+														{errorProductReview}
+													</Message>
+												</ListItem>
+											)}
 
-									{userInfo ? (
-										<ListItem>
-											<form
-												onSubmit={submitHandler}
-												style={{ width: '100%' }}
-											>
-												<Ratingas
-													value={rating}
-													num={null}
-													edit={true}
-													onReturn={(rating) => setRating(rating)}
-												/>
+											{userInfo ? (
+												<ListItem>
+													<form
+														onSubmit={submitHandler}
+														style={{ width: '100%' }}
+													>
+														<Ratingas
+															value={rating}
+															num={null}
+															edit={true}
+															onReturn={(rating) =>
+																setRating(rating)
+															}
+														/>
 
-												<TextareaAutosize
-													style={{ margin: '8px 0 4px 0' }}
-													onChange={(e) =>
-														setComment(e.target.value)
-													}
-													className="text-area"
-													aria-label="minimum height"
-													rowsMin={2}
-													placeholder="Comment"
-													value={comment}
-													required
-												/>
-												<Button
-													type="submit"
-													variant="contained"
-													color="secondary"
-												>
-													Submit
-												</Button>
-											</form>
-										</ListItem>
+														<TextareaAutosize
+															style={{ margin: '8px 0 4px 0' }}
+															onChange={(e) =>
+																setComment(e.target.value)
+															}
+															className="text-area"
+															aria-label="minimum height"
+															rowsMin={2}
+															placeholder="Comment"
+															value={comment}
+															required
+														/>
+														<Button
+															type="submit"
+															variant="contained"
+															color="secondary"
+														>
+															Submit
+														</Button>
+													</form>
+												</ListItem>
+											) : (
+												<Message>
+													Please{' '}
+													<StyledLink to="/login">
+														sign in
+													</StyledLink>{' '}
+													to write a review.
+												</Message>
+											)}
+										</>
 									) : (
-										<Message>
-											Please{' '}
-											<StyledLink to="/login">sign in</StyledLink> to
-											write a review.
-										</Message>
+										userInfo && (
+											<Message
+												variant="success"
+												style={{ marginTop: '15px' }}
+											>
+												You have reviewed this product!
+											</Message>
+										)
 									)}
 								</List>
 							</Grid>

@@ -65,7 +65,7 @@ const ProfileScreen = ({ location, history }) => {
 				dispatch(listMyOrders());
 			}
 		}
-	}, [history, userInfo, dispatch, user]);
+	}, [history, userInfo, dispatch, user, success]);
 
 	const submitHandler = (e) => {
 		e.preventDefault();

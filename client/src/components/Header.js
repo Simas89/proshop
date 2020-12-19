@@ -12,6 +12,7 @@ import {
 	Menu,
 	MenuItem,
 	Box,
+	Badge,
 } from '@material-ui/core';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import PersonIcon from '@material-ui/icons/Person';
@@ -19,23 +20,48 @@ import SearchBox from 'components/SearchBox';
 import StyledLink from 'components/StyledLink';
 
 const HeaderWrapper = styled.div`
-	.root {
-		flex-grow: 1;
-	}
 	.app-bar {
-		display: flex;
-		height: 80px;
+		height: 100px;
 		justify-content: center;
+		.tool-bar {
+			/* border: 1px solid red; */
+			.logo {
+				margin-right: 20px;
+			}
+			.item {
+				height: 46px;
+				/* border: 1px solid green; */
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+		.cat-bar {
+			border-top: 1px solid gray;
+			height: 30px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.cat-element {
+				color: white;
+				margin: 0 8px;
+				font-weight: 100;
+			}
+		}
 	}
 
 	.button {
-		margin-left: ${(p) => p.theme.spacing(1)}px;
 		color: white;
+		font-size: 0.8rem;
+		background-color: transparent;
 	}
 	.link {
 		color: white;
 		text-decoration: none;
-		margin-right: 16px;
+		/* border: 1px solid red; */
 	}
 `;
 
@@ -43,6 +69,9 @@ const Header = () => {
 	const dispatch = useDispatch();
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
+
+	const cart = useSelector((state) => state.cart);
+	const { cartItems } = cart;
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [anchorElAdmin, setAnchorElAdmin] = React.useState(null);
@@ -69,37 +98,37 @@ const Header = () => {
 		<HeaderWrapper className="root">
 			<AppBar position="static" className="app-bar">
 				<Container>
-					<Toolbar>
+					<Toolbar className="tool-bar">
 						<StyledLink to="/" className="link">
-							<Typography variant="h6">DEMO-SHOP</Typography>
+							<Typography className="logo" variant="h6">
+								DEMO-SHOP
+							</Typography>
 						</StyledLink>
 
 						<SearchBox />
 
 						<Box flexGrow={1} />
-						<Link to="/cart" className="link">
-							<Button
-								className="button link"
-								startIcon={<ShoppingBasketIcon />}
-							>
-								CART
-							</Button>
-						</Link>
+
 						{userInfo ? (
 							<>
-								<Button
-									className="button link"
-									aria-controls="simple-menu"
-									aria-haspopup="true"
-									onClick={handleClick}
-								>
-									{userInfo.name}
-									<span
-										style={{ fontSize: '.5rem', marginLeft: '5px' }}
+								<div onClick={handleClick} className="item">
+									<Button
+										className="button link"
+										aria-controls="simple-menu"
+										aria-haspopup="true"
+										disableRipple
 									>
-										▼
-									</span>
-								</Button>
+										{userInfo.name}
+										<span
+											style={{
+												fontSize: '.5rem',
+												marginLeft: '5px',
+											}}
+										>
+											▼
+										</span>
+									</Button>
+								</div>
 								<Menu
 									id="simple-menu"
 									anchorEl={anchorEl}
@@ -130,26 +159,37 @@ const Header = () => {
 							</>
 						) : (
 							<Link to="/login" className="link">
-								<Button className="button" startIcon={<PersonIcon />}>
-									SIGN IN
-								</Button>
+								<div className="item">
+									<Button
+										disableRipple
+										className="button"
+										startIcon={<PersonIcon />}
+									>
+										SIGN IN
+									</Button>
+								</div>
 							</Link>
 						)}
 						{userInfo && userInfo.isAdmin && (
 							<>
-								<Button
-									className="button link"
-									aria-controls="simple-menu"
-									aria-haspopup="true"
-									onClick={handleClickAdmin}
-								>
-									Admin
-									<span
-										style={{ fontSize: '.5rem', marginLeft: '5px' }}
+								<div onClick={handleClickAdmin} className="item">
+									<Button
+										disableRipple
+										className="button link"
+										aria-controls="simple-menu"
+										aria-haspopup="true"
 									>
-										▼
-									</span>
-								</Button>
+										Admin
+										<span
+											style={{
+												fontSize: '.5rem',
+												marginLeft: '5px',
+											}}
+										>
+											▼
+										</span>
+									</Button>
+								</div>
 								<Menu
 									id="simple-menu"
 									anchorEl={anchorElAdmin}
@@ -202,7 +242,44 @@ const Header = () => {
 								</Menu>
 							</>
 						)}
+
+						<Link to="/cart" className="link">
+							<div className="item">
+								<Button className="button" disableRipple>
+									<Badge
+										badgeContent={cartItems.reduce(
+											(acc, item) => acc + item.qty,
+											0
+										)}
+										color="secondary"
+									>
+										<ShoppingBasketIcon />
+									</Badge>
+								</Button>
+							</div>
+						</Link>
 					</Toolbar>
+					<div className="cat-bar">
+						<StyledLink to="/" className="cat-element">
+							<Typography variant="body2">Home</Typography>
+						</StyledLink>
+						<Typography className="cat-element" variant="body2">
+							|
+						</Typography>
+
+						<StyledLink to="/category/tech" className="cat-element">
+							<Typography variant="body2">Tech</Typography>
+						</StyledLink>
+						<StyledLink to="/category/outdoors" className="cat-element">
+							<Typography variant="body2">Outdoors</Typography>
+						</StyledLink>
+						<StyledLink
+							to="/category/miscellaneous"
+							className="cat-element"
+						>
+							<Typography variant="body2">Miscellaneous</Typography>
+						</StyledLink>
+					</div>
 					{/* <SearchBox /> */}
 				</Container>
 			</AppBar>

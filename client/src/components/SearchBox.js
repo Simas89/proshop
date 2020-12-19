@@ -2,7 +2,7 @@ import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import styled from 'styled-components';
-import { useHistory, Route } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const Wrapper = styled.div`
 	border: 1px solid white;
@@ -10,15 +10,24 @@ const Wrapper = styled.div`
 	/* justify-content: center; */
 	align-items: center;
 	flex-grow: 1;
-	max-width: 300px;
-	padding-left: 20px;
-
-	.icon {
+	max-width: 500px;
+	padding-right: 20px;
+	form {
+		/* border: 1px solid red; */
+		width: 100%;
+		.input-base {
+			padding: 4px 4px 4px 16px;
+			color: white;
+			width: 100%;
+		}
 	}
 
-	.input-base {
-		padding: 4px 4px 4px 16px;
-		color: white;
+	.icon {
+		opacity: ${(p) => (p.opacity ? 1 : 0.5)};
+		transition: 0.3s;
+		&:hover {
+			cursor: ${(p) => (p.opacity ? 'pointer' : 'default')};
+		}
 	}
 `;
 
@@ -35,8 +44,7 @@ const SearchBox = () => {
 		}
 	};
 	return (
-		<Wrapper>
-			<SearchIcon className="icon" />
+		<Wrapper opacity={keyword}>
 			<form onSubmit={submitHandler}>
 				<InputBase
 					value={keyword}
@@ -46,6 +54,7 @@ const SearchBox = () => {
 					inputProps={{ 'aria-label': 'search' }}
 				/>
 			</form>
+			<SearchIcon className="icon" onClick={submitHandler} />
 		</Wrapper>
 	);
 };

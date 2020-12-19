@@ -17,6 +17,7 @@ import Message from 'components/Message';
 import StyledLink from 'components/StyledLink';
 
 import { createOrder } from '../actions/orderActions';
+import { CART_RESET } from 'constants/cartConstants';
 
 const addDecimals = (num) => {
 	return (Math.round(num * 100) / 100).toFixed(2);
@@ -61,6 +62,7 @@ const PlaceOrderScreen = ({ history }) => {
 				totalPrice: cart.totalPrice,
 			})
 		);
+		dispatch({ type: CART_RESET });
 	};
 	return (
 		<>

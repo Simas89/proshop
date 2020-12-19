@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import styled from 'styled-components';
 import Message from 'components/Message';
-import { Link } from 'react-router-dom';
 import {
 	Button,
 	Grid,
@@ -17,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import DeleteIcon from '@material-ui/icons/Delete';
+import StyledLink from 'components/StyledLink';
 
 import Meta from 'components/Meta';
 
@@ -51,13 +51,11 @@ const CartScreen = ({ match, location, history }) => {
 	return (
 		<CartScreenWrapper>
 			<Meta title={'DemoShop | Cart'} />{' '}
-			<Grid container>
+			<Grid container spacing={2}>
 				<Grid item md={8}>
 					<Typography variant="h5">SHOPPING CART</Typography>
 					{cartItems.length === 0 ? (
-						<Message>
-							Your cart is empty <Link to="/">Go Back</Link>
-						</Message>
+						<Message>Your cart is empty</Message>
 					) : (
 						<List>
 							{cartItems.map((el) => (
@@ -67,12 +65,14 @@ const CartScreen = ({ match, location, history }) => {
 											<img src={el.image} alt={el.name}></img>
 										</Grid>
 										<Grid item md={3}>
-											<Link to={`/product/${el.product}`}>
+											<StyledLink to={`/product/${el.product}`}>
 												{el.name}
-											</Link>
+											</StyledLink>
 										</Grid>
 										<Grid item md={2}>
-											<Typography>£{el.price}</Typography>
+											<Typography variant="body2">
+												£{el.price}
+											</Typography>
 										</Grid>
 										<Grid item md={2}>
 											<FormControl
@@ -114,10 +114,10 @@ const CartScreen = ({ match, location, history }) => {
 												onClick={() =>
 													removeFromCarthandler(el.product)
 												}
-												fullWidth
-												// variant="contained"
-												color="primary"
-												// disabled={product.countInStock === 0}
+												// fullWidth
+												style={{ backgroundColor: 'transparent' }}
+												disableRipple
+												color="secondary"
 											>
 												<DeleteIcon />
 											</Button>
@@ -159,7 +159,7 @@ const CartScreen = ({ match, location, history }) => {
 										onClick={checkoutHandler}
 										fullWidth
 										variant="contained"
-										color="primary"
+										color="secondary"
 										disabled={cartItems.length === 0}
 									>
 										Procced To Checkout

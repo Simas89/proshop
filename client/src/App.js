@@ -20,7 +20,7 @@ import ProductListScreen from 'screens/ProductListScreen';
 import ProductEditScreen from 'screens/ProductEditScreen';
 import OrderListScreen from 'screens/OrderListScreen';
 
-import Swipable from 'components/Swipable';
+// import Swipable from 'components/Swipable';
 
 const AppWrapper = styled.div`
 	main {
@@ -76,7 +76,17 @@ const App = () => {
 							component={HomeScreen}
 						/>
 						<Route
+							path="/category/:category"
+							exact
+							component={HomeScreen}
+						/>
+						<Route
 							path="/search/:keyword/page/:pageNumber"
+							exact
+							component={HomeScreen}
+						/>
+						<Route
+							path="/category/:category/page/:pageNumber"
 							exact
 							component={HomeScreen}
 						/>

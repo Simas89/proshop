@@ -1,5 +1,4 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Pagination from '@material-ui/lab/Pagination';
 import styled from 'styled-components';
@@ -11,18 +10,27 @@ const Wrapper = styled.div`
 	justify-content: center;
 `;
 
-const Paginate = ({ pages, page: pageProp, isAdmin = false, keyword = '' }) => {
+const Paginate = ({
+	pages,
+	page: pageProp,
+	isAdmin = false,
+	keyword = '',
+	category = '',
+}) => {
 	const [page] = React.useState(pageProp);
 	const history = useHistory();
 
 	const handleClick = (e, value) => {
-		history.push(
-			!isAdmin
-				? keyword
-					? `/search/${keyword}/page/${value}`
-					: `/page/${value}`
-				: `/admin/productlist/${value}`
-		);
+		if (category) {
+			history.push(`/category/${category}/page/${value}`);
+		} else
+			history.push(
+				!isAdmin
+					? keyword
+						? `/search/${keyword}/page/${value}`
+						: `/page/${value}`
+					: `/admin/productlist/${value}`
+			);
 	};
 	return (
 		pages > 1 && (

@@ -17,9 +17,6 @@ const app = express();
 
 /// ---
 
-console.log('Hello World!');
-console.log(process.env.MONGO_URI);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const __dirname = path.resolve();
