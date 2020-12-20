@@ -15,14 +15,15 @@ import {
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
 import StyledLink from 'components/StyledLink';
 
 import Meta from 'components/Meta';
 
 const CartScreenWrapper = styled.div`
 	img {
-		width: 100%;
+		max-width: 100%;
+		max-height: 100%;
 	}
 `;
 
@@ -59,27 +60,27 @@ const CartScreen = ({ match, location, history }) => {
 					) : (
 						<List>
 							{cartItems.map((el) => (
-								<ListItem key={el.product}>
+								<ListItem key={el.product} style={{ padding: 0 }}>
 									<Grid container spacing={1}>
-										<Grid item md={2}>
+										<Grid item xs={3}>
 											<img src={el.image} alt={el.name}></img>
 										</Grid>
-										<Grid item md={3}>
+										<Grid item xs={3}>
 											<StyledLink to={`/product/${el.product}`}>
 												{el.name}
 											</StyledLink>
 										</Grid>
-										<Grid item md={2}>
+										<Grid item xs={2}>
 											<Typography variant="body2">
 												£{el.price}
 											</Typography>
 										</Grid>
-										<Grid item md={2}>
+										<Grid item xs={1}>
 											<FormControl
 												// variant="outlined"
 												style={{
-													width: '70px',
-													minWidth: '80px',
+													// width: '70px',
+													// minWidth: '80px',
 													padding: 0,
 												}}
 											>
@@ -109,7 +110,7 @@ const CartScreen = ({ match, location, history }) => {
 												</Select>
 											</FormControl>
 										</Grid>
-										<Grid item md={2}>
+										<Grid item md={1}>
 											<Button
 												onClick={() =>
 													removeFromCarthandler(el.product)
@@ -119,7 +120,7 @@ const CartScreen = ({ match, location, history }) => {
 												disableRipple
 												color="secondary"
 											>
-												<DeleteIcon />
+												<CloseIcon />
 											</Button>
 										</Grid>
 									</Grid>
@@ -128,7 +129,7 @@ const CartScreen = ({ match, location, history }) => {
 						</List>
 					)}
 				</Grid>
-				<Grid item md={4}>
+				<Grid item xs={12} md={4}>
 					<Card>
 						<CardContent>
 							<List>

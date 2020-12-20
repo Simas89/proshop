@@ -111,40 +111,42 @@ const PlaceOrderScreen = ({ history }) => {
 											const totalPrice = item.price * item.qty;
 											return (
 												<div key={index}>
-													<ListItem key={index}>
-														<Box
-															display="flex"
-															justifyContent="center"
-															alignItems="center"
-														>
-															<Grid
-																container
-																spacing={1}
-																alignItems="center"
-															>
-																<Grid item md={1}>
+													<ListItem
+														key={index}
+														style={{ padding: 0 }}
+													>
+														<Grid container spacing={1}>
+															<Grid item xs={3} md={3}>
+																<div
+																	style={{
+																		maxHeight: '150px',
+																		overflow: 'hidden',
+																		display: 'flex',
+																		justifyContent: 'center',
+																		alignItems: 'center',
+																	}}
+																>
 																	<img
-																		style={{ width: '100%' }}
+																		style={{
+																			maxWidth: '100%',
+																		}}
 																		src={item.image}
 																		alt={item.name}
 																	></img>
-																</Grid>
-																<Grid item>
-																	<StyledLink
-																		to={`/product/${item.product}`}
-																	>
-																		{item.name}
-																	</StyledLink>
-																</Grid>
+																</div>
 															</Grid>
-															<Grid container justify="flex-end">
-																{' '}
-																<Grid item>
-																	{item.qty} x {item.price} = £
-																	{totalPrice.toFixed(2)}
-																</Grid>
+															<Grid item xs={5} md={5}>
+																<StyledLink
+																	to={`/product/${item.product}`}
+																>
+																	{item.name}
+																</StyledLink>
 															</Grid>
-														</Box>
+															<Grid item xs={4} md={4}>
+																{item.qty} x {item.price} = £
+																{totalPrice.toFixed(2)}
+															</Grid>
+														</Grid>
 													</ListItem>
 													<Divider />
 												</div>
@@ -156,7 +158,7 @@ const PlaceOrderScreen = ({ history }) => {
 						</ListItem>
 					</List>
 				</Grid>
-				<Grid item md={4}>
+				<Grid item xs={12} md={4}>
 					<Card>
 						<CardContent>
 							<List>
@@ -210,7 +212,7 @@ const PlaceOrderScreen = ({ history }) => {
 									<Button
 										fullWidth
 										variant="contained"
-										color="primary"
+										color="secondary"
 										disabled={cart.cartItems.length === 0}
 										onClick={placeOrderHandler}
 									>

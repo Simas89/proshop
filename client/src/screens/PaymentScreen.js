@@ -78,7 +78,7 @@ const PaymentScreen = ({ history }) => {
 				<Button
 					className={classes.marginVer}
 					variant="contained"
-					color="primary"
+					color="secondary"
 					type="submit"
 				>
 					Continue

@@ -86,7 +86,7 @@ const ProductScreen = ({ history, match }) => {
 
 	React.useLayoutEffect(() => {
 		dispatch({ type: PRODUCT_DETAILS_RESET });
-	}, []);
+	}, [dispatch]);
 
 	React.useEffect(() => {
 		if (successProductReview) {
@@ -107,7 +107,7 @@ const ProductScreen = ({ history, match }) => {
 			setQty(cartItems[index].qty);
 			setInCart(true);
 		}
-	}, [cartItems]);
+	}, [cartItems, match.params.id]);
 
 	const addToCartHandler = () => {
 		// history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -137,7 +137,7 @@ const ProductScreen = ({ history, match }) => {
 								<img src={product.image} alt={product.name} />
 							</div>
 						</Grid>
-						<Grid item md={3}>
+						<Grid item xs={12} sm={6} md={3}>
 							<List>
 								<ListItem>
 									<Typography variant="h5">{product.name}</Typography>
@@ -163,7 +163,7 @@ const ProductScreen = ({ history, match }) => {
 								</ListItem>
 							</List>
 						</Grid>
-						<Grid item md={3}>
+						<Grid item xs={12} sm={6} md={3}>
 							<Paper>
 								<List>
 									<ListItem>
@@ -249,7 +249,7 @@ const ProductScreen = ({ history, match }) => {
 									{inCart && (
 										<ListItem>
 											<Grid container>
-												<Grid item xs={6}>
+												<Grid item xs={6} md={6}>
 													<Typography variant="body1">
 														<strong>In Cart:</strong>
 													</Typography>
@@ -293,7 +293,7 @@ const ProductScreen = ({ history, match }) => {
 							</Paper>
 						</Grid>
 						<Grid container>
-							<Grid item md={6}>
+							<Grid item xs={12} md={6}>
 								<Typography style={{ marginTop: '8px' }} variant="h6">
 									REVIEWS
 								</Typography>

@@ -1,0 +1,1 @@
+export const SYSTEM_MENU_TOGGLE = 'SYSTEM_MENU_TOGGLE';

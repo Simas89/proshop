@@ -3,7 +3,7 @@ import { Container, Grid, Typography } from '@material-ui/core';
 
 const Footer = () => {
 	return (
-		<footer>
+		<footer style={{ margin: '30px 0 10px 0' }}>
 			<Container>
 				<Grid container justify="center" alignItems="center">
 					<Typography variant="body1">

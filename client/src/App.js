@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import { Container } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import HomeScreen from 'screens/HomeScreen';
@@ -20,11 +20,14 @@ import ProductListScreen from 'screens/ProductListScreen';
 import ProductEditScreen from 'screens/ProductEditScreen';
 import OrderListScreen from 'screens/OrderListScreen';
 
-// import Swipable from 'components/Swipable';
+import ExploreOurRange from 'components/ExploreOurRange';
+import SideMenu from 'components/SideMenu';
+
+import ScrollTop from 'components/ScrollTop';
 
 const AppWrapper = styled.div`
 	main {
-		padding-top: ${(p) => p.theme.spacing(4)}px;
+		padding-top: ${(p) => p.theme.spacing(15)}px;
 		min-height: 80vh;
 	}
 `;
@@ -34,10 +37,10 @@ const App = () => {
 		<Router>
 			<AppWrapper>
 				<Header />
+				<SideMenu />
+				<ScrollTop />
 
-				<main>
-					{/* <Route path="/" component={Swipable} exact /> */}
-
+				<main id="back-to-top-anchor">
 					<Container>
 						<Route path="/login" component={LoginScreen} />
 						<Route path="/order/:id" component={OrderScreen} />
@@ -91,6 +94,7 @@ const App = () => {
 							component={HomeScreen}
 						/>
 						<Route path="/" exact component={HomeScreen} />
+						<Route path="/" component={ExploreOurRange} exact />
 					</Container>
 				</main>
 				<Footer />

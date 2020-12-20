@@ -6,6 +6,7 @@ import Loader from 'components/Loader';
 import Message from 'components/Message';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
+import { USER_UPDATE_PROFILE_RESET } from 'constants/userConstants';
 import StyledLink from 'components/StyledLink';
 
 import Table from '@material-ui/core/Table';
@@ -53,6 +54,7 @@ const ProfileScreen = ({ location, history }) => {
 		} else {
 			try {
 				if (!user || !user.name || success) {
+					dispatch({ type: USER_UPDATE_PROFILE_RESET });
 					dispatch(getUserDetails('profile'));
 					dispatch(listMyOrders());
 				} else {
@@ -136,7 +138,7 @@ const ProfileScreen = ({ location, history }) => {
 					</Button>
 				</form>
 			</Grid>
-			<Grid item md={9}>
+			<Grid item xs={12} md={9}>
 				<Typography className={classes.marginVer} variant="h5">
 					MY ORDERS
 				</Typography>
@@ -146,7 +148,7 @@ const ProfileScreen = ({ location, history }) => {
 					<Message variant="error">{errorOrders}</Message>
 				) : (
 					<TableContainer component={Paper}>
-						<Table aria-label="simple table">
+						<TableContainer aria-label="simple table">
 							<TableHead>
 								<TableRow>
 									<TableCell align="left">ID</TableCell>
@@ -187,7 +189,7 @@ const ProfileScreen = ({ location, history }) => {
 									</TableRow>
 								))}
 							</TableBody>
-						</Table>
+						</TableContainer>
 					</TableContainer>
 				)}
 			</Grid>
