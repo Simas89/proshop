@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useSpring, animated } from 'react-spring';
 import { useScrollTrigger, Zoom, Fab } from '@material-ui/core';
 import KeyboardArrowUpOutlinedIcon from '@material-ui/icons/KeyboardArrowUpOutlined';
@@ -17,10 +18,10 @@ function ScrollTop() {
 		disableHysteresis: true,
 		threshold: 500,
 	});
-	// const pxToBottom = useSelector((state) => state.core.pxToBottom);
-	const pxToBottom = 300;
+	const pxToBottom = useSelector((state) => state.sytemMenu.pxToBottom);
+	console.log(pxToBottom);
 
-	let shift = pxToBottom - 150;
+	let shift = pxToBottom - 50;
 	let bottomShift = 0;
 	if (shift <= 0) {
 		// console.log(shift);

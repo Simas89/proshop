@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { PX_TO_BOTTOM } from 'constants/systemConstants';
 import styled from 'styled-components';
-import { Box, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import HomeScreen from 'screens/HomeScreen';
@@ -22,26 +24,42 @@ import OrderListScreen from 'screens/OrderListScreen';
 
 import ExploreOurRange from 'components/ExploreOurRange';
 import SideMenu from 'components/SideMenu';
+import Demo from 'components/Demo';
 
 import ScrollTop from 'components/ScrollTop';
 
 const AppWrapper = styled.div`
 	main {
-		padding-top: ${(p) => p.theme.spacing(15)}px;
-		min-height: 80vh;
+		padding-top: ${(p) => p.theme.spacing(12)}px;
+		min-height: 100vh;
+		/* border: 1px solid red; */
 	}
 `;
 
 const App = () => {
+	const dispatch = useDispatch();
+	const ref = React.useRef(null);
+	React.useEffect(() => {
+		const updatePxToBottom = () => {
+			dispatch({
+				type: PX_TO_BOTTOM,
+				payload:
+					ref.current.getBoundingClientRect().bottom - window.innerHeight,
+			});
+		};
+		document.addEventListener('scroll', updatePxToBottom);
+		return () => window.removeEventListener('scroll', updatePxToBottom);
+	}, [dispatch]);
 	return (
 		<Router>
-			<AppWrapper>
+			<AppWrapper ref={ref}>
 				<Header />
 				<SideMenu />
 				<ScrollTop />
 
 				<main id="back-to-top-anchor">
-					<Container>
+					<Route path="/" exact component={Demo} />
+					<Container style={{ paddingTop: '20px' }}>
 						<Route path="/login" component={LoginScreen} />
 						<Route path="/order/:id" component={OrderScreen} />
 						<Route path="/placeorder" component={PlaceOrderScreen} />

@@ -14,6 +14,7 @@ import { getUserDetails, updateUser } from '../actions/userActions';
 import FormContainer from 'components/FormContainer';
 import StyledLink from 'components/StyledLink';
 import { USER_UPDATE_RESET } from 'constants/userConstants';
+import Meta from 'components/Meta';
 
 const useStyles = makeStyles({
 	root: {
@@ -68,6 +69,7 @@ const UserEditScreen = ({ match, history }) => {
 
 	return (
 		<>
+			<Meta title={'DemoShop | Admin area'} />
 			<StyledLink to="/admin/userlist">
 				<Button>Go Back</Button>
 			</StyledLink>

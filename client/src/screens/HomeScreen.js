@@ -10,6 +10,10 @@ import Meta from 'components/Meta';
 import FeaturedProductsSelect from 'components/FeaturedProductsSelect';
 import TopProducts from 'components/TopProducts';
 
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const HomeScreen = ({ match }) => {
 	const [category, setCategory] = React.useState(
 		match.params.category || 'toprated'
@@ -38,7 +42,13 @@ const HomeScreen = ({ match }) => {
 
 	return (
 		<>
-			<Meta />
+			<Meta
+				title={`Welcome to DemoShop | ${
+					category !== 'latest' && category !== 'toprated'
+						? capitalizeFirstLetter(category)
+						: 'Home'
+				}`}
+			/>
 			{match.url === '/' ? (
 				<>
 					<FeaturedProductsSelect

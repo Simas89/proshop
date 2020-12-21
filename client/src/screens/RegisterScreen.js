@@ -7,6 +7,7 @@ import Message from 'components/Message';
 import { register } from '../actions/userActions';
 import FormContainer from 'components/FormContainer';
 import StyledLink from 'components/StyledLink';
+import Meta from 'components/Meta';
 
 const useStyles = makeStyles({
 	root: {
@@ -49,77 +50,80 @@ const RegisterScreen = ({ location, history }) => {
 		}
 	};
 	return (
-		<FormContainer>
-			<Typography className={classes.marginVer} variant="h5">
-				SIGN UP
-			</Typography>
-			{message && <Message variant="error">{message}</Message>}
-			{error && <Message variant="error">{error}</Message>}
-			{loading && <Loader />}
-			<form onSubmit={submitHandler}>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setName(e.target.value)}
-					value={name}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="name"
-					id="name"
-					label="name"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setEmail(e.target.value)}
-					value={email}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="email"
-					id="email"
-					label="Email"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setPassword(e.target.value)}
-					value={password}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="password"
-					id="password"
-					label="Password"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setConfirmPassword(e.target.value)}
-					value={confirmPassword}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="password"
-					id="confirmPassword"
-					label="Confirm password"
-				/>
-				<Button
-					className={classes.marginVer}
-					variant="contained"
-					color="primary"
-					type="submit"
-				>
-					Register
-				</Button>
-			</form>
+		<>
+			<Meta title={'DemoShop | Register'} />
+			<FormContainer>
+				<Typography className={classes.marginVer} variant="h5">
+					SIGN UP
+				</Typography>
+				{message && <Message variant="error">{message}</Message>}
+				{error && <Message variant="error">{error}</Message>}
+				{loading && <Loader />}
+				<form onSubmit={submitHandler}>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setName(e.target.value)}
+						value={name}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="name"
+						id="name"
+						label="name"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setEmail(e.target.value)}
+						value={email}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="email"
+						id="email"
+						label="Email"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setPassword(e.target.value)}
+						value={password}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="password"
+						id="password"
+						label="Password"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setConfirmPassword(e.target.value)}
+						value={confirmPassword}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="password"
+						id="confirmPassword"
+						label="Confirm password"
+					/>
+					<Button
+						className={classes.marginVer}
+						variant="contained"
+						color="primary"
+						type="submit"
+					>
+						Register
+					</Button>
+				</form>
 
-			<Typography variant="body1">
-				Have an Account?{' '}
-				<StyledLink
-					to={redirect ? `/login?redirect=${redirect}` : '/login'}
-				>
-					<strong>Login</strong>
-				</StyledLink>
-			</Typography>
-		</FormContainer>
+				<Typography variant="body1">
+					Have an Account?{' '}
+					<StyledLink
+						to={redirect ? `/login?redirect=${redirect}` : '/login'}
+					>
+						<strong>Login</strong>
+					</StyledLink>
+				</Typography>
+			</FormContainer>
+		</>
 	);
 };
 

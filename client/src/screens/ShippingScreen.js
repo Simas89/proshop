@@ -4,6 +4,7 @@ import { Button, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import FormContainer from 'components/FormContainer';
 import CheckoutSteps from 'components/CheckoutSteps';
+import Meta from 'components/Meta';
 
 import { saveShippingAddress } from '../actions/cartActions';
 
@@ -39,64 +40,67 @@ const ShippingScreen = ({ history }) => {
 		history.push('/payment');
 	};
 	return (
-		<FormContainer>
-			<Typography variant="h5">SHIPPING</Typography>
-			<CheckoutSteps activeStep={1} />
-			<form onSubmit={submitHandler}>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setAddress(e.target.value)}
-					value={address || ''}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="text"
-					id="address"
-					label="Address"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setCity(e.target.value)}
-					value={city || ''}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="text"
-					id="city"
-					label="City"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setPostalCode(e.target.value)}
-					value={postalCode || ''}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="text"
-					id="postalCode"
-					label="Enter postal code"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setCountry(e.target.value)}
-					value={country || ''}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="text"
-					id="country"
-					label="Country"
-				/>
-				<Button
-					className={classes.marginVer}
-					variant="contained"
-					color="secondary"
-					type="submit"
-				>
-					Continue
-				</Button>
-			</form>
-		</FormContainer>
+		<>
+			<Meta title={'DemoShop | Shipping'} />
+			<FormContainer>
+				<Typography variant="h5">SHIPPING</Typography>
+				<CheckoutSteps activeStep={1} />
+				<form onSubmit={submitHandler}>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setAddress(e.target.value)}
+						value={address || ''}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="text"
+						id="address"
+						label="Address"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setCity(e.target.value)}
+						value={city || ''}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="text"
+						id="city"
+						label="City"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setPostalCode(e.target.value)}
+						value={postalCode || ''}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="text"
+						id="postalCode"
+						label="Enter postal code"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setCountry(e.target.value)}
+						value={country || ''}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="text"
+						id="country"
+						label="Country"
+					/>
+					<Button
+						className={classes.marginVer}
+						variant="contained"
+						color="secondary"
+						type="submit"
+					>
+						Continue
+					</Button>
+				</form>
+			</FormContainer>
+		</>
 	);
 };
 

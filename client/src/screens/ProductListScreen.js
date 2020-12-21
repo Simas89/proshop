@@ -22,6 +22,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Meta from 'components/Meta';
 
 import Paginate from 'components/Paginate';
 
@@ -86,6 +87,7 @@ const ProductListScreen = ({ history, match }) => {
 	};
 	return (
 		<>
+			<Meta title={'DemoShop | Admin area'} />
 			<Box display="flex" justifyContent="space-between" margin="20px 0">
 				<Typography variant="h5">PRODUCTS</Typography>
 

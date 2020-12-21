@@ -10,6 +10,7 @@ import { listProductDetails, updateProduct } from '../actions/productActions';
 import FormContainer from 'components/FormContainer';
 import StyledLink from 'components/StyledLink';
 import { PRODUCT_UPDATE_RESET } from 'constants/productConstants';
+import Meta from 'components/Meta';
 
 const useStyles = makeStyles({
 	root: {
@@ -109,6 +110,7 @@ const ProductEditScreen = ({ match, history }) => {
 
 	return (
 		<>
+			<Meta title={'DemoShop | Admin area'} />
 			<StyledLink to="/admin/productlist">
 				<Button>Go Back</Button>
 			</StyledLink>

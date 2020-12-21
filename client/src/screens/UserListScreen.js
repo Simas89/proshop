@@ -18,6 +18,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Meta from 'components/Meta';
 
 const UserListScreen = ({ history }) => {
 	const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const UserListScreen = ({ history }) => {
 	};
 	return (
 		<>
+			<Meta title={'DemoShop | Admin area'} />
 			<Typography variant="h5">USERS</Typography>
 			{loading ? (
 				<Loader />

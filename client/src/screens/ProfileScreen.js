@@ -18,6 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import ClearIcon from '@material-ui/icons/Clear';
+import Meta from 'components/Meta';
 
 const useStyles = makeStyles({
 	marginVer: {
@@ -78,122 +79,125 @@ const ProfileScreen = ({ location, history }) => {
 		}
 	};
 	return (
-		<Grid container spacing={2}>
-			<Grid item md={3}>
-				<Typography className={classes.marginVer} variant="h5">
-					USER PROFILE
-				</Typography>
-				{message && <Message variant="error">{message}</Message>}
-				{error && <Message variant="error">{error}</Message>}
-				{success && <Message variant="success">Profile Updated</Message>}
-				{loading && <Loader />}
-				<form onSubmit={submitHandler}>
-					<TextField
-						className={classes.marginVer}
-						onChange={(e) => setName(e.target.value)}
-						value={name}
-						style={{ width: '100%' }}
-						variant="outlined"
-						type="name"
-						id="name"
-						label="Name"
-					/>
-					<TextField
-						className={classes.marginVer}
-						onChange={(e) => setEmail(e.target.value)}
-						value={email}
-						style={{ width: '100%' }}
-						variant="outlined"
-						type="email"
-						id="email"
-						label="Email"
-					/>
-					<TextField
-						className={classes.marginVer}
-						onChange={(e) => setPassword(e.target.value)}
-						value={password}
-						style={{ width: '100%' }}
-						variant="outlined"
-						type="password"
-						id="password"
-						label="Password"
-					/>
-					<TextField
-						className={classes.marginVer}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-						value={confirmPassword}
-						style={{ width: '100%' }}
-						variant="outlined"
-						type="password"
-						id="confirmPassword"
-						label="Confirm password"
-					/>
-					<Button
-						className={classes.marginVer}
-						variant="contained"
-						color="primary"
-						type="submit"
-					>
-						Update
-					</Button>
-				</form>
-			</Grid>
-			<Grid item xs={12} md={9}>
-				<Typography className={classes.marginVer} variant="h5">
-					MY ORDERS
-				</Typography>
-				{loadingOrders ? (
-					<Loader />
-				) : errorOrders ? (
-					<Message variant="error">{errorOrders}</Message>
-				) : (
-					<TableContainer component={Paper}>
-						<TableContainer aria-label="simple table">
-							<TableHead>
-								<TableRow>
-									<TableCell align="left">ID</TableCell>
-									<TableCell align="left">PAID</TableCell>
-									<TableCell align="left">DELIVERED</TableCell>
-									<TableCell align="left">TOTAL</TableCell>
-									<TableCell align="left">DATE</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{orders.map((order) => (
-									<TableRow key={order._id}>
-										<TableCell align="left">
-											<StyledLink to={`/order/${order._id}`}>
-												<strong>{order._id}</strong>
-											</StyledLink>
-										</TableCell>
-										<TableCell align="left">
-											{order.isPaid ? (
-												order.paidAt.substring(0, 10)
-											) : (
-												<ClearIcon style={{ color: 'red' }} />
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{order.isDelivered ? (
-												order.deliveredAt.substring(0, 10)
-											) : (
-												<ClearIcon style={{ color: 'red' }} />
-											)}
-										</TableCell>
-										<TableCell align="left">
-											£{order.totalPrice.toFixed(2)}
-										</TableCell>
-										<TableCell align="left">
-											{order.createdAt.substring(0, 10)}
-										</TableCell>
+		<>
+			<Meta title={`DemoShop | ${userInfo && userInfo.name}`} />
+			<Grid container spacing={2}>
+				<Grid item md={3}>
+					<Typography className={classes.marginVer} variant="h5">
+						USER PROFILE
+					</Typography>
+					{message && <Message variant="error">{message}</Message>}
+					{error && <Message variant="error">{error}</Message>}
+					{success && <Message variant="success">Profile Updated</Message>}
+					{loading && <Loader />}
+					<form onSubmit={submitHandler}>
+						<TextField
+							className={classes.marginVer}
+							onChange={(e) => setName(e.target.value)}
+							value={name}
+							style={{ width: '100%' }}
+							variant="outlined"
+							type="name"
+							id="name"
+							label="Name"
+						/>
+						<TextField
+							className={classes.marginVer}
+							onChange={(e) => setEmail(e.target.value)}
+							value={email}
+							style={{ width: '100%' }}
+							variant="outlined"
+							type="email"
+							id="email"
+							label="Email"
+						/>
+						<TextField
+							className={classes.marginVer}
+							onChange={(e) => setPassword(e.target.value)}
+							value={password}
+							style={{ width: '100%' }}
+							variant="outlined"
+							type="password"
+							id="password"
+							label="Password"
+						/>
+						<TextField
+							className={classes.marginVer}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+							value={confirmPassword}
+							style={{ width: '100%' }}
+							variant="outlined"
+							type="password"
+							id="confirmPassword"
+							label="Confirm password"
+						/>
+						<Button
+							className={classes.marginVer}
+							variant="contained"
+							color="primary"
+							type="submit"
+						>
+							Update
+						</Button>
+					</form>
+				</Grid>
+				<Grid item xs={12} md={9}>
+					<Typography className={classes.marginVer} variant="h5">
+						MY ORDERS
+					</Typography>
+					{loadingOrders ? (
+						<Loader />
+					) : errorOrders ? (
+						<Message variant="error">{errorOrders}</Message>
+					) : (
+						<TableContainer component={Paper}>
+							<Table aria-label="simple table">
+								<TableHead>
+									<TableRow>
+										<TableCell align="left">ID</TableCell>
+										<TableCell align="left">PAID</TableCell>
+										<TableCell align="left">DELIVERED</TableCell>
+										<TableCell align="left">TOTAL</TableCell>
+										<TableCell align="left">DATE</TableCell>
 									</TableRow>
-								))}
-							</TableBody>
+								</TableHead>
+								<TableBody>
+									{orders.map((order) => (
+										<TableRow key={order._id}>
+											<TableCell align="left">
+												<StyledLink to={`/order/${order._id}`}>
+													<strong>{order._id}</strong>
+												</StyledLink>
+											</TableCell>
+											<TableCell align="left">
+												{order.isPaid ? (
+													order.paidAt.substring(0, 10)
+												) : (
+													<ClearIcon style={{ color: 'red' }} />
+												)}
+											</TableCell>
+											<TableCell align="left">
+												{order.isDelivered ? (
+													order.deliveredAt.substring(0, 10)
+												) : (
+													<ClearIcon style={{ color: 'red' }} />
+												)}
+											</TableCell>
+											<TableCell align="left">
+												£{order.totalPrice.toFixed(2)}
+											</TableCell>
+											<TableCell align="left">
+												{order.createdAt.substring(0, 10)}
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
 						</TableContainer>
-					</TableContainer>
-				)}
+					)}
+				</Grid>
 			</Grid>
-		</Grid>
+		</>
 	);
 };
 

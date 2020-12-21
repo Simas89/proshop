@@ -12,7 +12,6 @@ import {
 	ListItem,
 	Typography,
 	Button,
-	Box,
 	Divider,
 	Badge,
 	Zoom,

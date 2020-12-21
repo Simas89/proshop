@@ -7,6 +7,7 @@ import Message from 'components/Message';
 import { login } from '../actions/userActions';
 import FormContainer from 'components/FormContainer';
 import StyledLink from 'components/StyledLink';
+import Meta from 'components/Meta';
 
 const useStyles = makeStyles({
 	root: {
@@ -42,54 +43,57 @@ const LoginScreen = ({ location, history }) => {
 		dispatch(login(email, password));
 	};
 	return (
-		<FormContainer>
-			<Typography className={classes.marginVer} variant="h5">
-				SIGN IN
-			</Typography>
-			{error && <Message variant="error">{error}</Message>}
-			{loading && <Loader />}
-			<form onSubmit={submitHandler}>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setEmail(e.target.value)}
-					value={email}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="email"
-					id="email"
-					label="Email"
-				/>
-				<TextField
-					className={classes.marginVer}
-					onChange={(e) => setPassword(e.target.value)}
-					value={password}
-					style={{ width: '100%' }}
-					variant="outlined"
-					required
-					type="password"
-					id="password"
-					label="Password"
-				/>
-				<Button
-					className={classes.marginVer}
-					variant="contained"
-					color="primary"
-					type="submit"
-				>
-					Sign In
-				</Button>
-			</form>
+		<>
+			<Meta title={'DemoShop | LogIn'} />
+			<FormContainer>
+				<Typography className={classes.marginVer} variant="h5">
+					SIGN IN
+				</Typography>
+				{error && <Message variant="error">{error}</Message>}
+				{loading && <Loader />}
+				<form onSubmit={submitHandler}>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setEmail(e.target.value)}
+						value={email}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="email"
+						id="email"
+						label="Email"
+					/>
+					<TextField
+						className={classes.marginVer}
+						onChange={(e) => setPassword(e.target.value)}
+						value={password}
+						style={{ width: '100%' }}
+						variant="outlined"
+						required
+						type="password"
+						id="password"
+						label="Password"
+					/>
+					<Button
+						className={classes.marginVer}
+						variant="contained"
+						color="primary"
+						type="submit"
+					>
+						Sign In
+					</Button>
+				</form>
 
-			<Typography variant="body1">
-				New Customer?{' '}
-				<StyledLink
-					to={redirect ? `/register?redirect=${redirect}` : '/register'}
-				>
-					<strong>Register</strong>
-				</StyledLink>
-			</Typography>
-		</FormContainer>
+				<Typography variant="body1">
+					New Customer?{' '}
+					<StyledLink
+						to={redirect ? `/register?redirect=${redirect}` : '/register'}
+					>
+						<strong>Register</strong>
+					</StyledLink>
+				</Typography>
+			</FormContainer>
+		</>
 	);
 };
 

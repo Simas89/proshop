@@ -102,8 +102,6 @@ const Header = ({ window }) => {
 	const systemMenu = useSelector((state) => state.sytemMenu);
 	const { isMenuOpen } = systemMenu;
 
-	console.log(systemMenu);
-
 	const theme = useTheme();
 	const md = useMediaQuery(theme.breakpoints.up('md'));
 

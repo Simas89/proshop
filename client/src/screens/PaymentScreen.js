@@ -9,6 +9,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import Meta from 'components/Meta';
 
 import { savePaymentMethod } from '../actions/cartActions';
 
@@ -45,46 +46,49 @@ const PaymentScreen = ({ history }) => {
 		setPaymentMethod(event.target.value);
 	};
 	return (
-		<FormContainer>
-			<Typography variant="h5">PAYMENT METHOD</Typography>
-			<CheckoutSteps activeStep={2} />
-			<form onSubmit={submitHandler}>
-				<Grid container>
-					<Grid>
-						{' '}
-						<FormControl component="fieldset">
-							<FormLabel component="legend">Select Method</FormLabel>
-							<RadioGroup
-								aria-label="gender"
-								name="gender1"
-								value={paymentMethod}
-								onChange={handleChange}
-							>
-								<FormControlLabel
-									value="PayPal"
-									control={<Radio />}
-									label="PayPal or Credit Card"
-								/>
-								<FormControlLabel
-									value="Stripe"
-									control={<Radio />}
-									label="Stripe"
-									disabled
-								/>
-							</RadioGroup>
-						</FormControl>
+		<>
+			<Meta title={'DemoShop | Payment Method'} />
+			<FormContainer>
+				<Typography variant="h5">PAYMENT METHOD</Typography>
+				<CheckoutSteps activeStep={2} />
+				<form onSubmit={submitHandler}>
+					<Grid container>
+						<Grid>
+							{' '}
+							<FormControl component="fieldset">
+								<FormLabel component="legend">Select Method</FormLabel>
+								<RadioGroup
+									aria-label="gender"
+									name="gender1"
+									value={paymentMethod}
+									onChange={handleChange}
+								>
+									<FormControlLabel
+										value="PayPal"
+										control={<Radio />}
+										label="PayPal or Credit Card"
+									/>
+									<FormControlLabel
+										value="Stripe"
+										control={<Radio />}
+										label="Stripe"
+										disabled
+									/>
+								</RadioGroup>
+							</FormControl>
+						</Grid>
 					</Grid>
-				</Grid>
-				<Button
-					className={classes.marginVer}
-					variant="contained"
-					color="secondary"
-					type="submit"
-				>
-					Continue
-				</Button>
-			</form>
-		</FormContainer>
+					<Button
+						className={classes.marginVer}
+						variant="contained"
+						color="secondary"
+						type="submit"
+					>
+						Continue
+					</Button>
+				</form>
+			</FormContainer>
+		</>
 	);
 };
 

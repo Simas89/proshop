@@ -7,7 +7,6 @@ import {
 	List,
 	ListItem,
 	Divider,
-	Box,
 	Card,
 	CardContent,
 } from '@material-ui/core';
@@ -15,6 +14,7 @@ import FormContainer from 'components/FormContainer';
 import CheckoutSteps from 'components/CheckoutSteps';
 import Message from 'components/Message';
 import StyledLink from 'components/StyledLink';
+import Meta from 'components/Meta';
 
 import { createOrder } from '../actions/orderActions';
 import { CART_RESET } from 'constants/cartConstants';
@@ -66,6 +66,7 @@ const PlaceOrderScreen = ({ history }) => {
 	};
 	return (
 		<>
+			<Meta title={'DemoShop | Place Order'} />
 			<FormContainer>
 				<CheckoutSteps activeStep={3} />
 			</FormContainer>
