@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SYSTEM_MENU_TOGGLE } from 'constants/systemConstants';
 import { logout } from '../actions/userActions';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
 	Container,
@@ -16,6 +16,7 @@ import {
 	Badge,
 	IconButton,
 	Zoom,
+	Grid,
 } from '@material-ui/core';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -27,6 +28,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+import TooltipCustom from 'components/TooltipCustom';
 
 const HeaderWrapper = styled.div`
 	position: fixed;
@@ -89,6 +91,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const Header = ({ window }) => {
+	const history = useHistory();
 	const dispatch = useDispatch();
 	const userLogin = useSelector((state) => state.userLogin);
 	const { userInfo } = userLogin;
@@ -156,54 +159,47 @@ const Header = ({ window }) => {
 								<>
 									{userInfo ? (
 										<>
-											<div onClick={handleClick} className="item">
-												<Button
-													className="button link"
-													aria-controls="simple-menu"
-													aria-haspopup="true"
-													disableRipple
-												>
-													{userInfo.name}
-													<span
-														style={{
-															fontSize: '.5rem',
-															marginLeft: '5px',
-														}}
-													>
-														▼
-													</span>
-												</Button>
-											</div>
-											<Menu
-												id="simple-menu"
-												anchorEl={anchorEl}
-												keepMounted
-												open={Boolean(anchorEl)}
-												onClose={handleClose}
-											>
-												<StyledLink
-													to="/profile"
-													className="title link"
-												>
-													<MenuItem
-														onClick={() => {
-															handleClose();
-														}}
-													>
-														<Typography className="menu-item">
+											<TooltipCustom
+												items={
+													<>
+														<Button
+															onClick={() =>
+																history.push('/profile')
+															}
+															disableRipple
+														>
 															Profile
-														</Typography>
-													</MenuItem>
-												</StyledLink>
-												<MenuItem
-													onClick={() => {
-														logoutHandler();
-														handleClose();
-													}}
-												>
-													Logout
-												</MenuItem>
-											</Menu>
+														</Button>
+														<Button
+															onClick={() => {
+																logoutHandler();
+															}}
+															disableRipple
+														>
+															Logout
+														</Button>
+													</>
+												}
+											>
+												<div className="item">
+													<Button
+														className="button link"
+														aria-controls="simple-menu"
+														aria-haspopup="true"
+														disableRipple
+													>
+														{userInfo.name}
+														<span
+															style={{
+																fontSize: '.5rem',
+																marginLeft: '5px',
+															}}
+														>
+															▼
+														</span>
+													</Button>
+												</div>
+											</TooltipCustom>
 										</>
 									) : (
 										<Link to="/login" className="link">
@@ -220,94 +216,151 @@ const Header = ({ window }) => {
 									)}
 									{userInfo && userInfo.isAdmin && (
 										<>
-											<div
-												onClick={handleClickAdmin}
-												className="item"
-											>
-												<Button
-													disableRipple
-													className="button link"
-													aria-controls="simple-menu"
-													aria-haspopup="true"
-												>
-													Admin
-													<span
-														style={{
-															fontSize: '.5rem',
-															marginLeft: '5px',
-														}}
-													>
-														▼
-													</span>
-												</Button>
-											</div>
-											<Menu
-												id="simple-menu"
-												anchorEl={anchorElAdmin}
-												keepMounted
-												open={Boolean(anchorElAdmin)}
-												onClose={handleCloseAdmin}
-											>
-												<StyledLink
-													to="/admin/userlist"
-													className="title link"
-												>
-													<MenuItem
-														onClick={() => {
-															handleCloseAdmin();
-														}}
-													>
-														<Typography className="menu-item">
+											<TooltipCustom
+												items={
+													<>
+														<Button
+															onClick={() =>
+																history.push('/admin/userlist')
+															}
+															disableRipple
+														>
 															Users
-														</Typography>
-													</MenuItem>
-												</StyledLink>
-												<StyledLink
-													to="/admin/productlist"
-													className="title link"
-												>
-													<MenuItem
-														onClick={() => {
-															handleCloseAdmin();
-														}}
-													>
-														<Typography className="menu-item">
+														</Button>
+														<Button
+															onClick={() => {
+																history.push(
+																	'/admin/productlist'
+																);
+															}}
+															disableRipple
+														>
 															Products
-														</Typography>
-													</MenuItem>
-												</StyledLink>
-												<StyledLink
-													to="/admin/orderlist"
-													className="title link"
-												>
-													<MenuItem
-														onClick={() => {
-															handleCloseAdmin();
-														}}
-													>
-														<Typography className="menu-item">
+														</Button>
+														<Button
+															onClick={() => {
+																history.push(
+																	'/admin/orderlist'
+																);
+															}}
+															disableRipple
+														>
 															Orders
-														</Typography>
-													</MenuItem>
-												</StyledLink>
-											</Menu>
+														</Button>
+													</>
+												}
+											>
+												<div className="item">
+													<Button
+														disableRipple
+														className="button link"
+														aria-controls="simple-menu"
+														aria-haspopup="true"
+													>
+														Admin
+														<span
+															style={{
+																fontSize: '.5rem',
+																marginLeft: '5px',
+															}}
+														>
+															▼
+														</span>
+													</Button>
+												</div>
+											</TooltipCustom>
 										</>
 									)}{' '}
-									<Link to="/cart" className="link">
-										<div className="item">
-											<Button className="button" disableRipple>
-												<Badge
-													badgeContent={cartItems.reduce(
-														(acc, item) => acc + item.qty,
-														0
-													)}
-													color="secondary"
-												>
-													<ShoppingBasketIcon />
-												</Badge>
-											</Button>
-										</div>
-									</Link>
+									<TooltipCustom
+										items={
+											<>
+												{cartItems.reduce(
+													(acc, item) => acc + item.qty,
+													0
+												) ? (
+													<>
+														<Grid container spacing={1}>
+															<Grid item xs={6}>
+																<Typography variant="body2">
+																	Items:
+																</Typography>
+															</Grid>
+															<Grid
+																item
+																xs={6}
+																justify="flex-end"
+																style={{ textAlign: 'end' }}
+															>
+																<Typography variant="body2">
+																	{cartItems.reduce(
+																		(acc, item) =>
+																			acc + item.qty,
+																		0
+																	)}
+																</Typography>
+															</Grid>
+
+															<Grid item xs={6}>
+																<Typography variant="body2">
+																	Total:
+																</Typography>
+															</Grid>
+															<Grid item xs={6}>
+																<Typography
+																	variant="body2"
+																	style={{ textAlign: 'end' }}
+																>
+																	£
+																	{cartItems
+																		.reduce(
+																			(acc, item) =>
+																				acc +
+																				item.qty *
+																					item.price,
+																			0
+																		)
+																		.toFixed(2)}
+																</Typography>
+															</Grid>
+														</Grid>
+														<Grid xs={12}>
+															<Button
+																onClick={() =>
+																	history.push('/cart')
+																}
+																variant="contained"
+																color="secondary"
+																disableRipple
+																fullWidth
+															>
+																CHECKOUT
+															</Button>
+														</Grid>
+													</>
+												) : (
+													<Typography variant="body2">
+														Cart is empty
+													</Typography>
+												)}
+											</>
+										}
+									>
+										<Link to="/cart" className="link">
+											<div className="item">
+												<Button className="button" disableRipple>
+													<Badge
+														badgeContent={cartItems.reduce(
+															(acc, item) => acc + item.qty,
+															0
+														)}
+														color="secondary"
+													>
+														<ShoppingBasketIcon />
+													</Badge>
+												</Button>
+											</div>
+										</Link>
+									</TooltipCustom>
 								</>
 							) : (
 								<Zoom in={!isMenuOpen} timeout={500}>

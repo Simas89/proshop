@@ -13,14 +13,14 @@ import theme from 'theme/theme';
 
 ReactDOM.render(
 	<Provider store={store}>
-		<StylesProvider injectFirst>
-			<MuiThemeProvider theme={theme}>
-				<ThemeProvider theme={theme}>
+		<MuiThemeProvider theme={theme}>
+			<ThemeProvider theme={theme}>
+				<StylesProvider injectFirst>
 					<CssBaseline />
 					<App />
-				</ThemeProvider>
-			</MuiThemeProvider>
-		</StylesProvider>
+				</StylesProvider>
+			</ThemeProvider>
+		</MuiThemeProvider>
 	</Provider>,
 	document.getElementById('root')
 );

@@ -82,15 +82,6 @@ const Product = ({ product }) => {
 					<Typography variant="h6">£{product.price}</Typography>
 				</div>
 			</CardContent>
-
-			{/* <CardActions>
-				<Button size="small" color="primary">
-					Share
-				</Button>
-				<Button size="small" color="primary">
-					Learn More
-				</Button>
-			</CardActions> */}
 		</CardStyled>
 	);
 };
